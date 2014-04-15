@@ -5,3 +5,7 @@ test/temp
 app/bower_components
 .tmp
 test/bower_components/
+.idea/BackboneMongoBook.iml
+.idea/jsLibraryMappings.xml
+.idea/libraries/BackboneMongoBook_node_modules.xml
+.idea/workspace.xml
