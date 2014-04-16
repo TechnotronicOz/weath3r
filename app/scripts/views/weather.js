@@ -7,6 +7,7 @@ define(function(require, exports, module) {
     var template = require('text!templates/weather.hbs');
     var templateDetails = require('text!templates/weather-details.hbs');
     var SatelliteView = require('views/satellite');
+    var ForecastView = require('views/forecast');
 
     module.exports = Backbone.View.extend({
 
@@ -29,6 +30,7 @@ define(function(require, exports, module) {
                 url: App.apiRoutes.current + this.formulateApiCall(),
                 dataType: 'json'
             }).done(function(data) {
+                console.log(data);
                 this.processWeather(data);
             }.bind(this));
         },
@@ -40,6 +42,9 @@ define(function(require, exports, module) {
             // create satellite view
             var satelliteView = new SatelliteView({ model: this.model, id: 'satellite' });
             $('#satellite', this.$el).html(satelliteView.render().el);
+
+            var forecastView = new ForecastView({ model: this.model, id: 'forecast' });
+            $('#forecast', this.$el).html(forecastView.render().el);
 
             return this;
         },

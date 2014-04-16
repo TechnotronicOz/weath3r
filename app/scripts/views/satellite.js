@@ -25,7 +25,7 @@ define(function(require, exports, module) {
         render: function() {
             var self = this;
             $.ajax({
-                url: App.apiRoutes.satellite + self.model.get('state') + '/' + encodeURIComponent(self.model.get('city')),
+                url: App.apiRoutes.satellite + self.model.get('state') + '/' + self.model.get('city'),
                 dataType: 'json'
             }).done(function(data) {
                 this.processData(data);

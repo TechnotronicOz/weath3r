@@ -1,0 +1,11 @@
+<h3>Forecast</h3>
+<ul>
+    {{#each forecastday}}
+        <li>
+            {{date.weekday}} <br>
+            <img src="{{icon_url}}"> <br>
+            High: {{high.fahrenheit}} <br>
+            Low: {{low.fahrenheit}}
+        </li>
+    {{/each}}
+</ul>

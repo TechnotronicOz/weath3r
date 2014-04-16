@@ -2,7 +2,7 @@ var q =             require('q'),
     http =          require('http'),
     url =           require('url'),
     RateLimiter =   require('limiter').RateLimiter,
-    rateCount =     10,
+    rateCount =     9,
     rateTime =      'minute',
     limiter =       new RateLimiter(rateCount, rateTime);
 
@@ -49,37 +49,47 @@ Weather.prototype.query = function(location) {
     };
 
     endpoint = url.format(options) + '.json';
-    console.log('endpoint:', endpoint);
 
     limiter.removeTokens(1, function(err, remainingRequests) {
         if (err) {
-            return deferred.reject(new Error({
+            console.log('err', err);
+            deferred.reject(new Error({
                 status_code: 500,
                 status_text: 'To many calls to the api'
             }));
+            return false;
         }
-        http.get(endpoint, function(res) {
-            var data = [];
+        if (err || remainingRequests <= 0) {
+            console.log('remaining requests:', remainingRequests);
+            deferred.reject(new Error({
+                status_code: 500,
+                status_text: 'To many calls to the API'
+            }));
+        } else {
+            console.log('remainingRequests', remainingRequests);
+            http.get(endpoint, function(res) {
+                var data = [];
 
-            res
-                .on('data', function(chunk) {
-                    data.push(chunk);
-                })
-                .on('end', function() {
-                    data = data.join('').trim();
-                    var result;
-                    try {
-                        result = JSON.parse(data);
-                    } catch(e) {
-                        result = { status_code: 500, status_text: 'JSON parse failed' };
-                        deferred.reject(new Error(result));
-                    }
-                    deferred.resolve(result);
-                });
-            //end res
-        }).on('error', function(err) {
-            deferred.reject(new Error(err));
-        });
+                res
+                    .on('data', function(chunk) {
+                        data.push(chunk);
+                    })
+                    .on('end', function() {
+                        data = data.join('').trim();
+                        var result;
+                        try {
+                            result = JSON.parse(data);
+                        } catch(e) {
+                            result = { status_code: 500, status_text: 'JSON parse failed' };
+                            deferred.reject(new Error(result));
+                        }
+                        deferred.resolve(result);
+                    });
+                //end res
+            }).on('error', function(err) {
+                deferred.reject(new Error(err));
+            });
+        }
     });
 
     return deferred.promise;
