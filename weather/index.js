@@ -51,14 +51,6 @@ Weather.prototype.query = function(location) {
     endpoint = url.format(options) + '.json';
 
     limiter.removeTokens(1, function(err, remainingRequests) {
-        if (err) {
-            console.log('err', err);
-            deferred.reject(new Error({
-                status_code: 500,
-                status_text: 'To many calls to the api'
-            }));
-            return false;
-        }
         if (err || remainingRequests <= 0) {
             console.log('remaining requests:', remainingRequests);
             deferred.reject(new Error({
