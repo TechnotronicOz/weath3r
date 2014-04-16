@@ -12,8 +12,7 @@ define(function(require, exports, module) {
     app.root = '/';
     app.apiRoutes = {
         //getCurrent: 'http://api.openweathermap.org/data/2.5/weather?q='
-        current: '/weather/conditions/',
-        satellite: '/weather/satellite/',
-        forecast: '/weather/forecast/'
+        getCurrent: '/weather/',
+        satellite: '/weather/satellite/'
     }
 });

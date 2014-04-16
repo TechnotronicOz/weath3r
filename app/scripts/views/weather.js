@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 
         grabWeather: function() {
             $.ajax({
-                url: App.apiRoutes.current + this.formulateApiCall(),
+                url: App.apiRoutes.getCurrent + this.formulateApiCall(),
                 dataType: 'json'
             }).done(function(data) {
                 this.processWeather(data);

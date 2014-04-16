@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Weather = require('../weather');
+var Wundernode = require('wundernode');
 
 var apiKey = 'aa3a3b0b486abd2f';
 
@@ -22,22 +22,28 @@ router.post('/', function(req, res) {
     res.json(userWeather);
 })
 
-function encodeLocale(state, city) {
-    return encodeURIComponent(state) + '/' + encodeURIComponent(city);
-}
+var wunder = new Wundernode(apiKey, true, 10, 'minute');
 
-router.get('/:lookupType/:state/:city', function(req, res) {
-    var weather = new Weather(apiKey, {}, req.param('lookupType')),
-        locale = encodeLocale(req.param('state'),req.param('city')),
-        apiResult;
-
-    weather.query(locale).then(function(result) {
-        apiResult = result;
-    }).fail(function(error) {
-        apiResult = error;
-    }).done(function() {
-        res.json(apiResult);
+router.get('/:state/:city', function(req, res) {
+    var localeStr = req.param('state') + '/' + encodeURIComponent(req.param('city'));
+    wunder.conditions(localeStr, function(err, obj) {
+        if (err) {
+            console.log('error:', err);
+            res.end('Error processing query string:' + localeStr)
+        }
+        res.end(obj);
     });
+});
+
+router.get('/satellite/:state/:city', function(req, res) {
+    var locale = req.param('state') + '/' + encodeURIComponent(req.param('city'));
+    wunder.satellite(locale, function(err, obj) {
+        if (err) {
+            console.log('error:', err);
+            res.end('Error processing query string:' + locale);
+        }
+        res.end(obj);
+    })
 });
 
 module.exports = router;
