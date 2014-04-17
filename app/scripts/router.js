@@ -24,14 +24,22 @@ define(function(require, exports, module) {
 
         loadUserData: function() {
             var LocationModel = require('models/location');
+            var LocationCollection = require('collections/locations');
+            this.locationCollection = new LocationCollection();
             this.locationModel = new LocationModel();
         },
 
         weather: function() {
             var WeatherView = require('views/weather');
-            this.locationModel.fetch().then(function() {
-                this.setView(new WeatherView({ model: this.locationModel }));
+            var self = this;
+            this.locationCollection.fetch().then(function() {
+                console.log('collection fetched');
+                console.log('...', this.locationCollection);
+                this.setView(new WeatherView({ collection: this.locationCollection }));
             }.bind(this));
+            /* this.locationModel.fetch().then(function() {
+                this.setView(new WeatherView({ model: this.locationModel }));
+            }.bind(this)); */
         },
 
         mylocation: function() {

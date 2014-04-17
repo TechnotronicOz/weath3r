@@ -15,5 +15,14 @@ define(function(require, exports, module) {
         current: '/weather/conditions/',
         satellite: '/weather/satellite/',
         forecast: '/weather/forecast/'
+    };
+
+    app.fetchFromApi = function(apiRoute, location, details) {
+        $.ajax({
+            url: app.apiRoutes.apiRoutet + location,
+            dataType: 'json'
+        }).done(function(data) {
+            return data;
+        });
     }
 });

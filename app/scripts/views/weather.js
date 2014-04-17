@@ -8,6 +8,7 @@ define(function(require, exports, module) {
     var templateDetails = require('text!templates/weather-details.hbs');
     var SatelliteView = require('views/satellite');
     var ForecastView = require('views/forecast');
+    var SnapshotView = require('views/snapshots');
 
     module.exports = Backbone.View.extend({
 
@@ -20,7 +21,7 @@ define(function(require, exports, module) {
             return this;
         },
 
-        formulateApiCall: function() {
+        /*formulateApiCall: function() {
             var str = this.model.get('state') + '/' + encodeURIComponent(this.model.get('city'));
             return str;
         },
@@ -33,20 +34,28 @@ define(function(require, exports, module) {
                 console.log(data);
                 this.processWeather(data);
             }.bind(this));
-        },
+        },*/
 
         render: function() {
-            this.grabWeather();
+            //this.grabWeather();
             this.$el.html(this.template());
 
-            // create satellite view
-            var satelliteView = new SatelliteView({ model: this.model, id: 'satellite' });
-            $('#satellite', this.$el).html(satelliteView.render().el);
+            var snapshotView = new SnapshotView({ collection: this.collection });
 
-            var forecastView = new ForecastView({ model: this.model, id: 'forecast' });
-            $('#forecast', this.$el).html(forecastView.render().el);
+            // create satellite view
+            //var satelliteView = new SatelliteView({ model: this.model, id: 'satellite' });
+            //$('#satellite', this.$el).html(satelliteView.render().el);
+
+            //var forecastView = new ForecastView({ model: this.model, id: 'forecast' });
+            //$('#forecast', this.$el).html(forecastView.render().el);
+
+            //this.subView(null, ForecastView, { model: this.model, id: 'forecast' });
 
             return this;
+        },
+
+        subView: function(viewName, view, args) {
+            $('#' + args.id, this.$el).html(new view(args).render().el);
         },
 
         processWeather: function(weather) {
