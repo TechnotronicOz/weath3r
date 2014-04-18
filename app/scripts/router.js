@@ -44,9 +44,12 @@ define(function(require, exports, module) {
 
         mylocation: function() {
             var LocationView = require('views/location');
-            this.locationModel.fetch().then(function() {
+            /* this.locationModel.fetch().then(function() {
                 this.setView(new LocationView({ model: this.locationModel }));
-            }.bind(this))
+            }.bind(this)); */
+            this.locationCollection.fetch().then(function() {
+                this.setView(new LocationView({ collection: this.locationCollection }));
+            }.bind(this));
         },
 
         setView: function(view) {

@@ -32,7 +32,9 @@ define(function(require, exports, module) {
         },
 
         render: function() {
-            $('#snapshots').append(this.$el.html(this.template(this.model.toJSON())));
+            console.log('this.parentel', this.parentEl);
+            this.parentEl.append(this.$el.html(this.template(this.model.toJSON())));
+            //$('#snapshots').append(this.$el.html(this.template(this.model.toJSON())));
             return this;
         }
     });

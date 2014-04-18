@@ -41,6 +41,7 @@ define(function(require, exports, module) {
             this.$el.html(this.template());
 
             var snapshotView = new SnapshotView({ collection: this.collection });
+            $('#snapshots', this.$el).html(snapshotView.el);
 
             // create satellite view
             //var satelliteView = new SatelliteView({ model: this.model, id: 'satellite' });
