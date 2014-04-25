@@ -17,31 +17,26 @@ define(function(require, exports, module) {
 
         className: 'row',
 
-        initialize: function() {
+        initialize: function(options) {
+            this.locationIdQuery = options.location;
             return this;
         },
-
-        /*formulateApiCall: function() {
-            var str = this.model.get('state') + '/' + encodeURIComponent(this.model.get('city'));
-            return str;
-        },
-
-        grabWeather: function() {
-            $.ajax({
-                url: App.apiRoutes.current + this.formulateApiCall(),
-                dataType: 'json'
-            }).done(function(data) {
-                console.log(data);
-                this.processWeather(data);
-            }.bind(this));
-        },*/
 
         render: function() {
             //this.grabWeather();
             this.$el.html(this.template());
 
-            var snapshotView = new SnapshotView({ collection: this.collection });
-            $('#snapshots', this.$el).html(snapshotView.el);
+            if (!this.locationIdQuery) {
+                var snapshotView = new SnapshotView({ collection: this.collection });
+                $('#snapshots', this.$el).html(snapshotView.el);
+            } else {
+                var locationId = Number(this.locationIdQuery),
+                    locationModel = this.collection.findWhere({ locationId: locationId });
+                $('#forecast', this.$el).html(new ForecastView({ model: locationModel }).render().el);
+            }
+
+            //var snapshotView = new SnapshotView({ collection: this.collection });
+            //$('#snapshots', this.$el).html(snapshotView.el);
 
             // create satellite view
             //var satelliteView = new SatelliteView({ model: this.model, id: 'satellite' });
@@ -53,25 +48,6 @@ define(function(require, exports, module) {
             //this.subView(null, ForecastView, { model: this.model, id: 'forecast' });
 
             return this;
-        },
-
-        subView: function(viewName, view, args) {
-            $('#' + args.id, this.$el).html(new view(args).render().el);
-        },
-
-        processWeather: function(weather) {
-            var ret = weather.current_observation;
-            var weatherObj = {
-                conditions: ret.weather,
-                temp: ret.temp_f,
-                humidity: ret.relative_humidity,
-                wind: ret.wind_string,
-                precip: ret.precip_today_string,
-                icon: ret.icon,
-                iconUrl: ret.icon_url,
-
-            }
-            $('#details', this.$el).html(this.templateDetails(weatherObj));
         }
     });
 })

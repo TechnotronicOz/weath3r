@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         routes: {
             '': 'index',
             'weather': 'weather',
+            'weather/:location': 'weather',
             'mylocation': 'mylocation'
         },
 
@@ -28,17 +29,17 @@ define(function(require, exports, module) {
             this.locationModel = new LocationModel();
         },
 
-        weather: function() {
-            var WeatherView = require('views/weather');
-            var self = this;
-            this.locationCollection.fetch().then(function() {
-                console.log('collection fetched');
-                console.log('...', this.locationCollection);
-                this.setView(new WeatherView({ collection: this.locationCollection }));
-            }.bind(this));
-            /* this.locationModel.fetch().then(function() {
-                this.setView(new WeatherView({ model: this.locationModel }));
-            }.bind(this)); */
+        weather: function(location) {
+            console.log('location query', location);
+            //if (!location) {
+                //console.log('!location');
+                var WeatherView = require('views/weather');
+                this.locationCollection.fetch().then(function () {
+                    this.setView(new WeatherView({ collection: this.locationCollection, location: location }));
+                }.bind(this));
+            /*} else {
+                console.log('location');
+            }*/
         },
 
         mylocation: function() {
@@ -52,7 +53,7 @@ define(function(require, exports, module) {
         },
 
         setView: function(view) {
-            console.log('setView', view);
+            //console.log('setView', view);
             if (this.view) {
                 this.view.remove();
                 this.view = null;

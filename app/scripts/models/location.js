@@ -12,11 +12,11 @@ define(function(require, exports, module) {
             zipcode: null
         },
         initialize: function() {
-            console.log('model.initialize');
+            //console.log('model.initialize');
         },
         validate: function(attrs, options) {
-            console.log('attrs', attrs);
-            console.log('options', options);
+            //console.log('attrs', attrs);
+            //console.log('options', options);
             if (!attrs.city) {
                 return 'You must enter a city';
             }

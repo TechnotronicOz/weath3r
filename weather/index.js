@@ -51,7 +51,7 @@ Weather.prototype.query = function(location) {
     endpoint = url.format(options) + '.json';
 
     limiter.removeTokens(1, function(err, remainingRequests) {
-        if (err || remainingRequests <= 0) {
+        if (err || remainingRequests < 1) {
             console.log('remaining requests:', remainingRequests);
             deferred.reject(new Error({
                 status_code: 500,

@@ -4,24 +4,28 @@ var router = express.Router();
 var userWeather = [
     {
         userId: 1,
+        locationId: 1,
         city: 'Kansas City',
         state: 'MO',
         zipcode: '64151'
     },
     {
         userId: 1,
+        locationId: 2,
         city: 'Fort Myers',
         state: 'FL',
         zipcode: '33912'
     },
     {
         userId: 1,
+        locationId: 3,
         city: 'Key West',
         state: 'FL',
         zipcode: '33010'
     },
     {
         userId: 1,
+        locationId: 4,
         city: 'Seattle',
         state: 'WA',
         zipcode: 97951

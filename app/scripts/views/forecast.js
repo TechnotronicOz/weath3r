@@ -2,6 +2,7 @@ define(function(require, exports, module) {
     'use strict';
 
     var Backbone = require('backbone');
+    var _ = require('underscore');
     var App = require('app');
     var Handlebars = require('handlebars');
     var template = require('text!templates/forecast.hbs');
@@ -31,7 +32,7 @@ define(function(require, exports, module) {
 
         processApiData: function(data) {
             console.log('data', data.forecast.simpleforecast);
-            return this.$el.html(this.template(data.forecast.simpleforecast));
+            return this.$el.html(this.template(_.extend({ city: this.model.get('city'), state: this.model.get('state') }, data.forecast.simpleforecast)));
         }
     })
 })
