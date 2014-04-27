@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     // External dependencies.
     var Backbone = require('backbone');
-    var App = require('app');
+    var Header = require('views/header');
 
     module.exports = Backbone.Router.extend({
         routes: {
@@ -16,7 +16,20 @@ define(function(require, exports, module) {
 
         initialize: function() {
             this.$appContainer = $('#main');
-            this.loadUserData();
+            //this.loadUserData();
+            var LocationModel = require('models/location');
+            var LocationCollection = require('collections/locations');
+            this.locationCollection = new LocationCollection();
+            this.locationModel = new LocationModel();
+            this.loadHeader();
+        },
+
+        loadHeader: function() {
+            var self = this;
+            this.locationCollection.fetch().then(function() {
+                self.$header = new Header({ collection: self.locationCollection });
+                $('header').html(self.$header.render().el);
+            });
         },
 
         index: function() {
@@ -31,23 +44,14 @@ define(function(require, exports, module) {
         },
 
         weather: function(location) {
-            console.log('location query', location);
-            //if (!location) {
-                //console.log('!location');
-                var WeatherView = require('views/weather');
-                this.locationCollection.fetch().then(function () {
-                    this.setView(new WeatherView({ collection: this.locationCollection, location: location }));
-                }.bind(this));
-            /*} else {
-                console.log('location');
-            }*/
+            var WeatherView = require('views/weather');
+            this.locationCollection.fetch().then(function () {
+                this.setView(new WeatherView({ collection: this.locationCollection, location: location }));
+            }.bind(this));
         },
 
         mylocation: function() {
             var LocationView = require('views/location');
-            /* this.locationModel.fetch().then(function() {
-                this.setView(new LocationView({ model: this.locationModel }));
-            }.bind(this)); */
             this.locationCollection.fetch().then(function() {
                 this.setView(new LocationView({ collection: this.locationCollection }));
             }.bind(this));
@@ -64,7 +68,6 @@ define(function(require, exports, module) {
         },
 
         setView: function(view) {
-            //console.log('setView', view);
             if (this.view) {
                 this.view.remove();
                 this.view = null;

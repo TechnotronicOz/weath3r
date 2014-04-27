@@ -31,8 +31,8 @@ define(function(require, exports, module) {
         },
 
         processApiData: function(data) {
-            console.log('data', data);
-            return this.$el.html(this.template(_.extend({ city: this.model.get('city'), state: this.model.get('state') }, data.forecast.simpleforecast)));
+            var updatedData = _.extend({ city: this.model.get('city'), state: this.model.get('state') }, data.forecast.simpleforecast);
+            return this.$el.html(this.template(updatedData));
         }
     })
 })
