@@ -57,8 +57,9 @@ router.get('/:lookupType/:state/:city', function(req, res) {
             var timeDiff = 0;
             if (reply) {
                 timeDiff = Math.round((Date.now() - reply.timestamp) / 1000);
-
-                if (timeDiff < 100 && reply.locale == locale && reply.lookupType === lookupType) {
+                console.log('... timediff', timeDiff);
+                // 600 sec = 10 min
+                if (timeDiff < 600 && reply.locale == locale && reply.lookupType === lookupType) {
                     console.log('in cache: ' + locale + ', ' + lookupType);
                     apiResult = JSON.parse(reply.data);
                     res.json(apiResult);
@@ -84,7 +85,7 @@ router.get('/:lookupType/:state/:city', function(req, res) {
                 lookupType: lookupType,
                 data: JSON.stringify(result)
             });
-            client.expire(cacheKey, 600);
+            client.expire(cacheKey, 6000);
 
             apiResult = result;
             res.json(apiResult);
