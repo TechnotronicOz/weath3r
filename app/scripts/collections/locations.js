@@ -3,9 +3,10 @@ define(function(require, exports, module) {
 
     var Backbone = require('backbone');
     var locationModel = require('models/location');
+    var App = require('app');
 
     module.exports = Backbone.Collection.extend({
-        url: '/locations',
+        url: App.apiRoutes.locationCollection,
         model: locationModel
     });
 });

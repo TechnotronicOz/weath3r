@@ -10,7 +10,8 @@ define(function(require, exports, module) {
             '': 'index',
             'weather': 'weather',
             'weather/:location': 'weather',
-            'mylocation': 'mylocation'
+            'mylocation': 'mylocation',
+            'mylocation/edit/:location': 'editLocation'
         },
 
         initialize: function() {
@@ -50,6 +51,16 @@ define(function(require, exports, module) {
             this.locationCollection.fetch().then(function() {
                 this.setView(new LocationView({ collection: this.locationCollection }));
             }.bind(this));
+        },
+
+        editLocation: function(locationId) {
+            var EditLocationView = require('views/locationEdit');
+            this.locationCollection.fetch().then(function() {
+                var locId = Number(locationId);
+                var model = this.locationCollection.findWhere({ locationId: locId });
+                this.setView(new EditLocationView({ model: model }));
+            }.bind(this));
+            window.locationCollection = this.locationCollection;
         },
 
         setView: function(view) {

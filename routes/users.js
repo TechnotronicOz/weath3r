@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
+    console.log('post');
     userWeather.city = req.body.city;
     userWeather.state = req.body.state;
     userWeather.zipcode = req.body.zipcode;

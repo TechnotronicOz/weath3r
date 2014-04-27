@@ -21,7 +21,7 @@ define(function(require, exports, module) {
         render: function() {
             //this.$el.html(this.template(this.model.toJSON()));
             this.collection.each(function(locationItm) {
-                 this.$el.append('<li>' + locationItm.get('city') + ', ' + locationItm.get('state') + '</li>');
+                 this.$el.append('<li><a href="/#/mylocation/edit/' + locationItm.get('locationId') + '">' + locationItm.get('city') + ', ' + locationItm.get('state') + '</a></li>');
             }, this);
             return this;
         },
