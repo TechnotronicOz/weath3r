@@ -31,7 +31,7 @@ define(function(require, exports, module) {
         },
 
         processApiData: function(data) {
-            console.log('data', data.forecast.simpleforecast);
+            console.log('data', data);
             return this.$el.html(this.template(_.extend({ city: this.model.get('city'), state: this.model.get('state') }, data.forecast.simpleforecast)));
         }
     })

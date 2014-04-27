@@ -37,6 +37,31 @@ function urlOptionize(obj) {
     return JSON.stringify(obj).replace(/["{}]/g,'').replace(/,/g, '/');
 }
 
+
+var cache = [];
+
+function findInCache(endpoint) {
+    console.log('findInCache', endpoint);
+
+    cache.filter(function(item, index) {
+        /* if (item.endpoint === endpoint) {
+            console.log('item.endpoint === endpoint');
+            var elapsed =(Date.now() - item.timestamp) / 1000;
+            if (elapsed <= 1000) {
+                console.log('elapsed <= 1000 - returning item', item.data);
+                return item.data;
+            } else {
+                cache.splice(index, 1);
+                console.log('returning false');
+                return false;
+            }
+        }
+        console.log('returning false end');
+        return false; */
+        return item.endpoint === endpoint
+    });
+}
+
 Weather.prototype.query = function(location) {
     var deferred = q.defer(),
         options, endpoint;
@@ -58,7 +83,7 @@ Weather.prototype.query = function(location) {
                 status_text: 'To many calls to the API'
             }));
         } else {
-            console.log('remainingRequests', remainingRequests);
+
             http.get(endpoint, function(res) {
                 var data = [];
 
@@ -71,6 +96,8 @@ Weather.prototype.query = function(location) {
                         var result;
                         try {
                             result = JSON.parse(data);
+                            cache.push({ timestamp: Date.now(), endpoint: endpoint, data: result });
+                            //console.log('cache', cache);
                         } catch(e) {
                             result = { status_code: 500, status_text: 'JSON parse failed' };
                             deferred.reject(new Error(result));
@@ -83,6 +110,8 @@ Weather.prototype.query = function(location) {
             });
         }
     });
+
+
 
     return deferred.promise;
 };

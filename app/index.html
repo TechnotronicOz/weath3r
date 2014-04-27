@@ -10,8 +10,10 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/flat-ui.css">
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
+        <!-- <link rel="stylesheet" href="styles/main.css"> -->
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
@@ -24,14 +26,14 @@
 
 
         <div class="container">
-            <div class="header">
+            <header class="header col-md-12">
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/#/mylocation">Your Location</a></li>
                     <li><a href="/#/weather">Current Conditions</a></li>
                 </ul>
                 <h3 class="text-muted">Weath3r</h3>
-            </div>
+            </header>
 
             <!-- <div class="jumbotron">
                 <h1>'Allo, 'Allo!</h1>
@@ -39,7 +41,7 @@
                 <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
             </div> -->
 
-            <div id="main"></div>
+            <section class="col-md-12" id="main"></section>
 
             <!-- <div class="row text-left">
                 <div class="col-md-offset-4">
