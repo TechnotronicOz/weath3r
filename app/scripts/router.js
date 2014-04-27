@@ -16,7 +16,6 @@ define(function(require, exports, module) {
 
         initialize: function() {
             this.$appContainer = $('#main');
-            //this.loadUserData();
             var LocationModel = require('models/location');
             var LocationCollection = require('collections/locations');
             this.locationCollection = new LocationCollection();
@@ -34,13 +33,6 @@ define(function(require, exports, module) {
 
         index: function() {
             console.log('Welcome to your / route.');
-        },
-
-        loadUserData: function() {
-            var LocationModel = require('models/location');
-            var LocationCollection = require('collections/locations');
-            this.locationCollection = new LocationCollection();
-            this.locationModel = new LocationModel();
         },
 
         weather: function(location) {

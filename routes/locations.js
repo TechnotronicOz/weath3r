@@ -37,15 +37,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    //userWeather.city = req.body.city;
-    //userWeather.state = req.body.state;
-    //userWeather.zipcode = req.body.zipcode;
-
-    console.log('post received', req.body.locationId);
     userWeather.forEach(function(item) {
-        console.log('item', item.locationId);
         if (item.locationId === req.body.locationId) {
-            console.log('updating item: ', item);
             item.city = req.body.city;
             item.state = req.body.state;
         }
