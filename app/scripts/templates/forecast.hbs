@@ -1,11 +1,15 @@
 <!-- <h3>Forecast for {{city}}, {{state}}</h3> -->
-<div class="row">
-    {{#each forecastday}}
-        <div class="col-xs-3">
-            {{date.weekday}} <br>
-            <img src="{{icon_url}}"> <br>
-            High: {{high.fahrenheit}} <br>
-            Low: {{low.fahrenheit}}
-        </div>
-    {{/each}}
+<div class="col-xs-12">
+    <h5>Forecast</h5>
+    <hr/>
+    <div class="row">
+        {{#each forecastday}}
+            <div class="col-xs-3">
+                {{date.weekday}} <br>
+                <img src="{{icon_url}}"> <br>
+                High: {{high.fahrenheit}} <br>
+                Low: {{low.fahrenheit}}
+            </div>
+        {{/each}}
+    </div>
 </div>
