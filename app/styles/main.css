@@ -5,10 +5,23 @@
   padding: 0.2em 0; }
 
 .header .navbar {
-  border-radius: 0; }
+  border-radius: 0;
+  margin-bottom: 0;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2); }
 
 .tile {
   margin-bottom: 15px; }
 
 footer {
   margin-top: 50px; }
+
+.home {
+  background: url(../images/bg.jpg) no-repeat;
+  background-size: cover;
+  height: 495px;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  transition: .25s ease-out; }
+
+.home.shorty {
+  height: 150px; }

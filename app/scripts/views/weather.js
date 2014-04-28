@@ -21,6 +21,7 @@ define(function(require, exports, module) {
         },
 
         render: function() {
+            $('.home').addClass('shorty');
             this.$el.html(this.template());
 
             if (!this.locationIdQuery) {

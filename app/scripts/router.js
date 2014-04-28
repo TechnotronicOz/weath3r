@@ -17,6 +17,7 @@ define(function(require, exports, module) {
 
         initialize: function() {
             this.$appContainer = $('#main');
+            this.$homeContainer = $('#home');
             var LocationModel = require('models/location');
             var LocationCollection = require('collections/locations');
             this.locationCollection = new LocationCollection();
@@ -34,6 +35,14 @@ define(function(require, exports, module) {
 
         index: function() {
             console.log('Welcome to your / route.');
+            $('.home').removeClass('shorty');
+            if (!this.homeview) {
+                console.log('creating home view');
+                var HomeView = require('views/home');
+                this.homeview = new HomeView();
+                this.$homeContainer.html(this.homeview.render().el);
+            }
+            this.setView(null);
         },
 
         weather: function(location) {
@@ -73,8 +82,11 @@ define(function(require, exports, module) {
                 this.view.remove();
                 this.view = null;
             }
+            if (view === null) {
+                return;
+            }
             this.view = view;
-            return this.$appContainer.html(this.view.render().el)
+            return this.$appContainer.html(this.view.render().el);
         }
     });
 });
