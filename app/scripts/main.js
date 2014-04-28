@@ -1,4 +1,3 @@
-/*global require*/
 require(['config'], function() {
     require(['app', 'router'], function(app, Router) {
         app.router = new Router();

@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var _ = require('underscore');
 
 var userWeather = [
     {
+        id: 0,
         userId: 1,
         locationId: 1,
         city: 'Kansas City',
@@ -10,6 +12,7 @@ var userWeather = [
         zipcode: '64151'
     },
     {
+        id: 1,
         userId: 1,
         locationId: 2,
         city: 'Fort Myers',
@@ -17,6 +20,7 @@ var userWeather = [
         zipcode: '33912'
     },
     {
+        id: 2,
         userId: 1,
         locationId: 3,
         city: 'Key West',
@@ -24,6 +28,7 @@ var userWeather = [
         zipcode: '33010'
     },
     {
+        id: 3,
         userId: 1,
         locationId: 4,
         city: 'Seattle',
@@ -37,14 +42,37 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    userWeather.forEach(function(item) {
-        if (item.locationId === req.body.locationId) {
-            item.city = req.body.city;
-            item.state = req.body.state;
-        }
-    })
+    if (req.body.id === null) {
+        var newId = userWeather.length + 1;
+        userWeather.push({
+            id: newId,
+            userId: 1,
+            locationId: newId,
+            city: req.body.city,
+            state: req.body.state
+        });
+        res.json(userWeather[newId - 1]);
+    } else {
+        userWeather.forEach(function(item) {
+            if (item.locationId === req.body.locationId) {
+                item.city = req.body.city;
+                item.state = req.body.state;
+            }
+        });
+        res.json(userWeather);
+    }
+});
 
-    res.json(userWeather);
-})
+router.delete('/:location', function(req, res) {
+    var locationId = req.param('location');
+
+    _.each(userWeather, function(item, index) {
+        if (item.id == locationId) {
+            userWeather.splice(index, 1);
+        }
+    });
+
+    res.send(200);
+});
 
 module.exports = router;

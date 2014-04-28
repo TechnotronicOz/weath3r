@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var Backbone = require('backbone');
     var _ = require('underscore');
     var Handlebars = require('handlebars');
+    var App = require('app');
     var template = require('text!templates/locationEdit.hbs');
 
     module.exports = Backbone.View.extend({
@@ -11,7 +12,8 @@ define(function(require, exports, module) {
         template: Handlebars.compile(template),
 
         events: {
-            'click #save': 'save'
+            'click #save': 'save',
+            'click #delete': 'remove'
         },
 
         initialize: function() {
@@ -46,6 +48,13 @@ define(function(require, exports, module) {
                 self.$el.find('#messages').empty();
             }, 5000);
             return false;
+        },
+
+        remove: function() {
+            this.collection.remove(this.model);
+            this.model.destroy();
+            this.collection.trigger('change');
+            App.router.navigate('weather', { trigger: true });
         }
     });
 });
