@@ -44,6 +44,7 @@
     "connect-livereload": "~0.3.2",
     "time-grunt": "~0.2.8",
     "jshint-stylish": "~0.1.5",
-    "redis": "^0.10.1"
+    "redis": "^0.10.1",
+    "underscore": "^1.6.0"
   }
 }

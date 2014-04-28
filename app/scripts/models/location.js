@@ -7,13 +7,19 @@ define(function(require, exports, module) {
     module.exports = Backbone.Model.extend({
 
         //url: App.apiRoutes.locationModel,
-        url: App.apiRoutes.locationCollection,
+        //url: App.apiRoutes.locationCollection,
+        urlRoot: App.apiRoutes.locationCollection,
 
         defaults: {
+            id: null,
             userId: null,
             city: null,
             state: null,
             zipcode: null
+        },
+
+        initialize: function() {
+            //console.log(this);
         },
 
         validate: function(attrs, options) {

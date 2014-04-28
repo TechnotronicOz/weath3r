@@ -16,7 +16,6 @@ define(function(require, exports, module) {
         id: 'snapshots',
 
         initialize: function() {
-            console.log('this.id', this.id);
             this.collection.each(function(weatherItm) {
                this.subViews[weatherItm] = new SnapshotView({ model: weatherItm, parent: this.$el });
             }, this);

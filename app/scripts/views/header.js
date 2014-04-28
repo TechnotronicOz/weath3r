@@ -12,17 +12,21 @@ define(function(require, exports, module) {
         template: Handlebars.compile(template),
 
         initialize: function() {
-            var modifiedCollection = [];
+            this.listenTo(this.collection, 'change', this.render, this);
+            return this;
+        },
+
+        render: function() {
+            var arr = [];
             this.collection.each(function(model) {
-                modifiedCollection.push({
+                arr.push({
                     url: '/#/weather/' + model.get('locationId'),
                     city: model.get('city'),
-                    state: model.get('state'),
-                    model: model
-                })
-            });
-
-            this.$el.html(this.template({ locations: modifiedCollection }));
+                    state: model.get('state')
+                });
+            })
+            this.$el.html(this.template({ locations: arr }));
+            return this;
         }
     });
 });

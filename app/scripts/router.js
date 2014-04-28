@@ -11,7 +11,8 @@ define(function(require, exports, module) {
             'weather': 'weather',
             'weather/:location': 'weather',
             'mylocation': 'mylocation',
-            'mylocation/edit/:location': 'editLocation'
+            'mylocation/edit/:location': 'editLocation',
+            'mylocation/add': 'addLocation'
         },
 
         initialize: function() {
@@ -50,13 +51,21 @@ define(function(require, exports, module) {
         },
 
         editLocation: function(locationId) {
+            var self = this;
             var EditLocationView = require('views/locationEdit');
             this.locationCollection.fetch().then(function() {
                 var locId = Number(locationId);
                 var model = this.locationCollection.findWhere({ locationId: locId });
-                this.setView(new EditLocationView({ model: model }));
+                this.setView(new EditLocationView({ collection: self.locationCollection, model: model }));
             }.bind(this));
-            window.locationCollection = this.locationCollection;
+        },
+
+        addLocation: function() {
+            var AddLocationView = require('views/locationNew');
+            var self = this;
+            this.locationCollection.fetch().then(function() {
+                self.setView(new AddLocationView({ collection: self.locationCollection }));
+            });
         },
 
         setView: function(view) {
