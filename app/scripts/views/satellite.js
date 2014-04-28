@@ -14,12 +14,37 @@ define(function(require, exports, module) {
             return this;
         },
 
+        events: {
+            'click .btn-visible': 'showVisible',
+            'click .btn-radar': 'showRadar'
+        },
+
+        showVisible: function(e) {
+            console.log('showVisible');
+            this.$visible.show();
+            this.$radar.hide();
+        },
+
+        showRadar: function(e) {
+            this.$radar.show();
+            this.$visible.hide();
+        },
+
         processData: function(data) {
             var obj = {
                 img: data.satellite.image_url,
                 img_vis: data.satellite.image_url_vis
             };
-            return this.$el.html(this.template(obj));
+            this.$el.html(this.template(obj));
+
+            this.setEls();
+        },
+
+        setEls: function() {
+            this.$radar = $('.img-radar', this.$el);
+            this.$visible = $('.img-visible', this.$el);
+
+            this.$radar.hide();
         },
 
         render: function() {
