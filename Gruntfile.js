@@ -155,11 +155,19 @@ module.exports = function (grunt) {
                 options: {
                     baseUrl: '<%= yeoman.app %>/scripts',
                     optimize: 'none',
+                    mainConfigFile: '<%= yeoman.app %>/scripts/config.js',
                     paths: {
-                        'templates': '../../.tmp/scripts/templates',
-                        'jquery': '../../app/bower_components/jquery/jquery',
+                        //'templates': '../../.tmp/scripts/templates',
+                        //'jquery': '../../app/bower_components/jquery/jquery',
+                        //'underscore': '../../app/bower_components/underscore/underscore',
+                        //'backbone': '../../app/bower_components/backbone/backbone'
+
+                        'jquery': '../../app/bower_components/jquery/dist/jquery',
+                        'backbone': '../../app/bower_components/backbone/backbone',
                         'underscore': '../../app/bower_components/underscore/underscore',
-                        'backbone': '../../app/bower_components/backbone/backbone'
+                        'bootstrap': '../../app/bower_components/sass-bootstrap/dist/js/bootstrap',
+                        'text': '../../app/bower_components/requirejs-text/text',
+                        'handlebars': '../../app/bower_components/handlebars.js/handlebars-v1.3.0'
                     },
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
@@ -168,7 +176,10 @@ module.exports = function (grunt) {
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true
+                    wrap: true,
+                    inlineText: true,
+                    findNestedDependencies: true,
+                    normalizeDirDefines: 'skip'
                     //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
             }
@@ -343,7 +354,7 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'cssmin',
-        'uglify',
+        //'uglify',
         'copy',
         'rev',
         'usemin'
