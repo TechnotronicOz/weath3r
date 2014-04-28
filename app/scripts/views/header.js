@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var Handlebars = require('handlebars');
     var App = require('app');
     var template = require('text!templates/header.hbs');
-    var Bootstrap = require('bootstrap');
+    require('bootstrap');
 
     module.exports = Backbone.View.extend({
 
