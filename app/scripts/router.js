@@ -4,10 +4,11 @@ define(function(require, exports, module) {
     // External dependencies.
     var Backbone = require('backbone');
     var Header = require('views/header');
+    var App = require('app');
 
     module.exports = Backbone.Router.extend({
         routes: {
-            '': 'index',
+            '': 'home',
             'weather': 'weather',
             'weather/:location': 'weather',
             'mylocation': 'mylocation',
@@ -23,6 +24,7 @@ define(function(require, exports, module) {
             this.locationCollection = new LocationCollection();
             this.locationModel = new LocationModel();
             this.loadHeader();
+            this.home();
         },
 
         loadHeader: function() {
@@ -33,14 +35,15 @@ define(function(require, exports, module) {
             });
         },
 
-        index: function() {
-            console.log('Welcome to your / route.');
-            $('.home').removeClass('shorty');
+        home: function() {
             if (!this.homeview) {
                 console.log('creating home view');
                 var HomeView = require('views/home');
                 this.homeview = new HomeView();
+                App.homeview = this.homeview;
                 this.$homeContainer.html(this.homeview.render().el);
+            } else {
+                this.homeview.grow();
             }
             this.setView(null);
         },

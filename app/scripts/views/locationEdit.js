@@ -23,6 +23,7 @@ define(function(require, exports, module) {
 
         render: function() {
             var messages;
+            App.homeview.shrink();
             if (this.$el.find('#messages').html() !== '') {
                 var messages = this.$el.find('#messages').html()
             }

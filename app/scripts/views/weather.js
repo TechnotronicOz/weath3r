@@ -3,6 +3,7 @@ define(function(require, exports, module) {
 
     var Backbone = require('backbone');
     var Handlebars = require('handlebars');
+    var App = require('app');
     var template = require('text!templates/weather.hbs');
     var SatelliteView = require('views/satellite');
     var ForecastView = require('views/forecast');
@@ -21,7 +22,8 @@ define(function(require, exports, module) {
         },
 
         render: function() {
-            $('.home').addClass('shorty');
+            //$('.home').addClass('shorty');
+            App.homeview.shrink();
             this.$el.html(this.template());
 
             if (!this.locationIdQuery) {

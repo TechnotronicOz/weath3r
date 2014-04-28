@@ -24,4 +24,5 @@ footer {
   transition: .25s ease-out; }
 
 .home.shorty {
-  height: 150px; }
+  height: 150px;
+  color: rgba(255, 255, 255, 0.85); }

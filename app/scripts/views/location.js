@@ -3,6 +3,7 @@ define(function(require, exports, module) {
 
     var Backbone = require('backbone');
     var Handlebars = require('handlebars');
+    var App = require('app');
     var template = require('text!templates/location.hbs');
 
     module.exports = Backbone.View.extend({
@@ -22,6 +23,7 @@ define(function(require, exports, module) {
         },
 
         render: function() {
+            App.homeview.shrink();
             this.collection.each(function(locationItm) {
                  this.$el.append('<li><a href="/#/mylocation/edit/' + locationItm.get('locationId') + '">' + locationItm.get('city') + ', ' + locationItm.get('state') + '</a></li>');
             }, this);
