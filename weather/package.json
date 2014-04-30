@@ -10,7 +10,8 @@
     "dependencies": {
         "url": "=0.7.9",
         "limiter": "=1.0.3",
-        "q": "=1.0.1"
+        "q": "=1.0.1",
+        "redis": "^0.10.1"
     },
     "devDependencies": {
         "express": "=3.0"
