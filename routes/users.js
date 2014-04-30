@@ -2,11 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Weather = require('../weather');
 
-var redis = require('redis');
-var client = redis.createClient();
-
-var q = require('q');
-
 //client.on('error', function(err) {
 //    console.log('Redis Client Error:', err);
 //});
@@ -49,48 +44,11 @@ router.get('/:lookupType/:state/:city', function(req, res) {
         cacheKey = encodeForCache(locale, lookupType),
         apiResult;
 
-
-    client.hgetall(cacheKey, function(err, reply) {
-        if (err) {
-            console.log('cache err', err);
-        } else {
-            var timeDiff = 0;
-            if (reply) {
-                timeDiff = Math.round((Date.now() - reply.timestamp) / 1000);
-                console.log('... timediff', timeDiff);
-                // 600 sec = 10 min
-                if (timeDiff < 6000 && reply.locale == locale && reply.lookupType === lookupType) {
-                    console.log('in cache: ' + locale + ', ' + lookupType);
-                    apiResult = JSON.parse(reply.data);
-                    res.json(apiResult);
-                    return false;
-                } else {
-                    callFromAPI();
-                }
-            } else {
-                callFromAPI();
-            }
-        }
+    var weather = new Weather(apiKey, {}, lookupType);
+    weather.query(locale).then(function(result) {
+        apiResult = result;
+        res.json(apiResult);
     });
-
-    function callFromAPI() {
-        console.log('calling api: ' + locale + ', ' + lookupType);
-        var weather = new Weather(apiKey, {}, lookupType);
-        weather.query(locale).then(function(result) {
-
-            // store in cache
-            client.hmset(cacheKey, {
-                timestamp: Date.now(),
-                locale: locale,
-                lookupType: lookupType,
-                data: JSON.stringify(result)
-            });
-            //client.expire(cacheKey, 6000);
-
-            apiResult = result;
-            res.json(apiResult);
-        });
-    }
 });
 
 module.exports = router;
