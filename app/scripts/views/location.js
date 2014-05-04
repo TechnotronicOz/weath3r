@@ -24,6 +24,7 @@ define(function(require, exports, module) {
         render: function() {
             App.homeview.shrink();
             this.collection.each(function(locationItm) {
+                console.log('locationItm', locationItm);
                  this.$el.append('<li><a href="/#/mylocation/edit/' + locationItm.get('_id') + '">' + locationItm.get('city') + ', ' + locationItm.get('state') + '</a></li>');
             }, this);
             return this;

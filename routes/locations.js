@@ -57,7 +57,7 @@ router.post('/', function(req, res) {
 // Update weather model
 router.put('/:id', function(req, res) {
     console.log('Updating location ' + req.body.city);
-    return WeatherModel.findByid(req.params.id, function(err, model) {
+    return WeatherModel.findById(req.params.id, function(err, model) {
         model.city = req.body.city;
         model.state = req.body.state;
         model.time = Date.now()
@@ -75,11 +75,18 @@ router.put('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
     console.log('Deleting weather entry: ' + req.params.id);
     return WeatherModel.findById(req.params.id, function(err, model) {
-        return model.remove(function(err) {
-            if (err) {
-                return console.log('There was an error deleting', req.params.id);
-            }
+
+        if (model == null) {
             return res.send('');
+        }
+
+        return model.remove(function(err) {
+            if (!err) {
+                console.log('removed');
+                return res.send('');
+            } else {
+                return console.log('error', err);
+            }
         });
     });
 });

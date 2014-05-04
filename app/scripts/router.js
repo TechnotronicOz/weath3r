@@ -37,7 +37,6 @@ define(function(require, exports, module) {
 
         home: function() {
             if (!this.homeview) {
-                console.log('creating home view');
                 var HomeView = require('views/home');
                 this.homeview = new HomeView();
                 App.homeview = this.homeview;
@@ -66,8 +65,8 @@ define(function(require, exports, module) {
             var self = this;
             var EditLocationView = require('views/locationEdit');
             this.locationCollection.fetch().then(function() {
-                var locId = Number(locationId);
-                var model = this.locationCollection.findWhere({ locationId: locId });
+                var locId = locationId;
+                var model = this.locationCollection.findWhere({ _id: locId });
                 this.setView(new EditLocationView({ collection: self.locationCollection, model: model }));
             }.bind(this));
         },

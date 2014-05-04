@@ -22,6 +22,7 @@ define(function(require, exports, module) {
         },
 
         render: function() {
+            console.log(this.model);
             var messages;
             App.homeview.shrink();
             if (this.$el.find('#messages').html() !== '') {

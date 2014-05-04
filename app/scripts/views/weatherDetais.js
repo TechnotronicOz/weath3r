@@ -36,7 +36,7 @@ define(function(require, exports, module) {
                 self.weatherModel.set(key, val);
             });
 
-            this.$el.html(this.template(_.extend({ id: this.model.get('locationId') }, this.weatherModel.toJSON())));
+            this.$el.html(this.template(_.extend({ id: this.model.get('_id') }, this.weatherModel.toJSON())));
         }
     })
 })
