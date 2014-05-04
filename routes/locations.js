@@ -2,77 +2,86 @@ var express = require('express');
 var router = express.Router();
 var _ = require('underscore');
 
-var userWeather = [
-    {
-        id: 0,
-        userId: 1,
-        locationId: 1,
-        city: 'Kansas City',
-        state: 'MO',
-        zipcode: '64151'
-    },
-    {
-        id: 1,
-        userId: 1,
-        locationId: 2,
-        city: 'Fort Myers',
-        state: 'FL',
-        zipcode: '33912'
-    },
-    {
-        id: 2,
-        userId: 1,
-        locationId: 3,
-        city: 'Key West',
-        state: 'FL',
-        zipcode: '33010'
-    },
-    {
-        id: 3,
-        userId: 1,
-        locationId: 4,
-        city: 'Seattle',
-        state: 'WA',
-        zipcode: 97951
-    }
-]
+// db-related stuff
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/weath3r');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('connected to mongo');
+});
 
+// Our weather model schema
+var Schema = new mongoose.Schema({
+    id: Number,
+    userId: Number,
+    locationId: Number,
+    city: String,
+    state: String,
+    zipcode: Number,
+    time: { type: Date, default: Date.now },
+    active: Boolean
+});
+
+// Our weather model from the schema
+var WeatherModel = mongoose.model('Weather', Schema);
+
+
+// Get all weather models
 router.get('/', function(req, res) {
-    res.json(userWeather);
-});
-
-router.post('/', function(req, res) {
-    if (req.body.id === null) {
-        var newId = userWeather.length + 1;
-        userWeather.push({
-            id: newId,
-            userId: 1,
-            locationId: newId,
-            city: req.body.city,
-            state: req.body.state
-        });
-        res.json(userWeather[newId - 1]);
-    } else {
-        userWeather.forEach(function(item) {
-            if (item.locationId === req.body.locationId) {
-                item.city = req.body.city;
-                item.state = req.body.state;
-            }
-        });
-        res.json(userWeather);
-    }
-});
-
-router.delete('/:location', function(req, res) {
-    var locationId = req.param('location');
-
-    _.each(userWeather, function(item, index) {
-        if (item.id == locationId) {
-            userWeather.splice(index, 1);
+    WeatherModel.find(function(err, models) {
+        if (err) {
+            return console.log('Error', err);
         }
+        return res.send(models);
+
+    });
+});
+
+// Create new weather model
+router.post('/', function(req, res) {
+
+    var model = new WeatherModel({
+        city: req.body.city,
+        state: req.body.state
     });
 
-    res.send(200);
+    return model.save(function(err) {
+        if (err) {
+            console.log('Error', err);
+        }
+        return res.send(model);
+    });
+});
+
+// Update weather model
+router.put('/:id', function(req, res) {
+    console.log('Updating location ' + req.body.city);
+    return WeatherModel.findByid(req.params.id, function(err, model) {
+        model.city = req.body.city;
+        model.state = req.body.state;
+        model.time = Date.now()
+
+        return model.save(function(err) {
+            if (err) {
+                return console.log('Save error ' + err);
+            }
+            return res.send(model);
+        });
+    });
+});
+
+//Delete weather model
+router.delete('/:id', function(req, res) {
+    console.log('Deleting weather entry: ' + req.params.id);
+    return WeatherModel.findById(req.params.id, function(err, model) {
+        return model.remove(function(err) {
+            if (err) {
+                return console.log('There was an error deleting', req.params.id);
+            }
+            return res.send('');
+        });
+    });
 });
 
 module.exports = router;

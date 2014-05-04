@@ -20,7 +20,6 @@ define(function(require, exports, module) {
         },
 
         showVisible: function(e) {
-            console.log('showVisible');
             this.$visible.show();
             this.$radar.hide();
         },

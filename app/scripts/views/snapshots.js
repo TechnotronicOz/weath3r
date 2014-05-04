@@ -2,16 +2,11 @@ define(function(require, exports, module) {
     'use strict';
 
     var Backbone = require('backbone');
-    //var App = require('app');
-    //var Handlebars = require('handlebars');
-    //var template = require('text!templates/snapshots');
     var SnapshotView = require('views/snapshot');
 
     module.exports = Backbone.View.extend({
 
         subViews: {},
-
-        //template: Handlebars.compile(template),
 
         id: 'snapshots',
 
