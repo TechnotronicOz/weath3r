@@ -17,7 +17,6 @@ define(function(require, exports, module) {
         },
 
         initialize: function() {
-            console.log('this.collection', this.collection);
             this.listenTo(this.collection, 'change', this.render);
             return this;
         },
@@ -25,7 +24,7 @@ define(function(require, exports, module) {
         render: function() {
             App.homeview.shrink();
             this.collection.each(function(locationItm) {
-                 this.$el.append('<li><a href="/#/mylocation/edit/' + locationItm.get('locationId') + '">' + locationItm.get('city') + ', ' + locationItm.get('state') + '</a></li>');
+                 this.$el.append('<li><a href="/#/mylocation/edit/' + locationItm.get('_id') + '">' + locationItm.get('city') + ', ' + locationItm.get('state') + '</a></li>');
             }, this);
             return this;
         }

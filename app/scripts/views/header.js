@@ -20,7 +20,7 @@ define(function(require, exports, module) {
             var arr = [];
             this.collection.each(function(model) {
                 arr.push({
-                    url: '/#/weather/' + model.get('locationId'),
+                    url: '/#/weather/' + model.get('_id'),
                     city: model.get('city'),
                     state: model.get('state')
                 });

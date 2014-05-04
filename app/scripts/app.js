@@ -19,10 +19,17 @@ define(function(require, exports, module) {
 
     app.fetchFromApi = function(apiRoute, location, details) {
         $.ajax({
-            url: app.apiRoutes.apiRoutet + location,
+            url: app.apiRoutes.apiRoute + location,
             dataType: 'json'
         }).done(function(data) {
             return data;
         });
-    }
+    };
+
+    app.errors = {
+        invalid: {
+            id: 1,
+            msg: 'You have entered an invalid weather location'
+        }
+    };
 });
