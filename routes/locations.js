@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/weath3r');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
-  console.log('connected to mongo');
+  console.log('connected to mongo...');
 });
 
 // Our weather model schema
@@ -40,7 +40,7 @@ router.get('/', function(req, res) {
 
 // Create new weather model
 router.post('/', function(req, res) {
-
+    console.log('Creating new Weather Model');
     var model = new WeatherModel({
         city: req.body.city,
         state: req.body.state
@@ -82,7 +82,6 @@ router.delete('/:id', function(req, res) {
 
         return model.remove(function(err) {
             if (!err) {
-                console.log('removed');
                 return res.send('');
             } else {
                 return console.log('error', err);

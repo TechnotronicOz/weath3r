@@ -1,12 +1,48 @@
 var express = require('express');
 var router = express.Router();
 var Weather = require('../weather');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/weath3r');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('connected');
+});
+
+var Schema = mongoose.Schema;
+
+var UserSchema = new mongoose.Schema({
+    username:  { type: String, default: '' },
+    firstname: { type: String, default: '' },
+    email: { type: String, default: '' },
+    password: { type: String, default: '' },
+    lastActive: { type: Date, default: Date.now }
+});
+
+var weatherSchema = new Schema({
+    userId: Number,
+    
+  title:  String,
+  author: String,
+  body:   String,
+  comments: [{ body: String, date: Date }],
+  date: { type: Date, default: Date.now },
+  hidden: Boolean,
+  meta: {
+    votes: Number,
+    favs:  Number
+  }
+});
+
 
 //client.on('error', function(err) {
 //    console.log('Redis Client Error:', err);
 //});
 
 var apiKey = 'aa3a3b0b486abd2f';
+
+var user
 
 var userWeather = {
     userId: 1,
@@ -36,6 +72,7 @@ function encodeForCache(location, lookup) {
 }
 
 router.get('/:lookupType/:state/:city', function(req, res) {
+    console.log('lookuptype from users.js');
 
     //console.log('get: ' + req.param('lookupType') + ' / ' + req.param('city') + ', ' + req.param('state'));
 
