@@ -26,7 +26,6 @@ var Schema = new mongoose.Schema({
 // Our weather model from the schema
 var WeatherModel = mongoose.model('Weather', Schema);
 
-
 // Get all weather models
 router.get('/', function(req, res) {
     WeatherModel.find(function(err, models) {
