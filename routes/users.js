@@ -71,10 +71,9 @@ function encodeForCache(location, lookup) {
     return location + '-' + lookup;
 }
 
+// why do i have this in here?
 router.get('/:lookupType/:state/:city', function(req, res) {
     console.log('lookuptype from users.js');
-
-    //console.log('get: ' + req.param('lookupType') + ' / ' + req.param('city') + ', ' + req.param('state'));
 
     var lookupType = req.param('lookupType'),
         locale = encodeLocale(req.param('state'), req.param('city')),
